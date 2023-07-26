@@ -6,8 +6,8 @@
     <div class="container mt-5">
         <div class="card">
             <div class="row no-gutters">
-                <div class="col-md-4" >
-                    <img src="{% static 'images/profile_img_default.jpg' %}" class="card-img" alt="Image">
+                <div class="col-md-4">
+                    <img src="{% static 'images/cake_image.jpg' %}" class="card-img" alt="Image">
                 </div>
                 <div class="col-md-8" >
                     <div class="card-body">
@@ -35,12 +35,8 @@
         </div>
     </div>
 
-    {#    endtry    #}
 
-    <h3> Single recipe details page</h3>
 
-    <h2> {{ recipe.title }} </h2>
-    <p> {{ recipe.description }}</p>
     {#    {% if 'user has rights' %}#}
     <a href="{% url 'recipe_edit' recipe.slug %}"> Edit recipe </a>
     <a href="{% url 'recipe_delete' recipe.slug %}"> DELETE </a>
