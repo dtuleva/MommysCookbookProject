@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+
+    <h3> Single recipe details page</h3>
+
+    <h2> {{ recipe.title }} </h2>
+    <p> {{ recipe.description }}</p>
+{#    {% if 'user has rights' %}#}
+    <a href="{% url 'recipe_edit' recipe.slug %}"> Edit recipe </a>
+    <a href="{% url 'recipe_delete' recipe.slug %}"> DELETE </a>
+{#    {% endif %}#}
+
+{% endblock %}

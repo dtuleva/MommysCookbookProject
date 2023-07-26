@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block main-content %}
+
+
+
+    <h3 class="text-center">Welcome to Mommy's cookbook!</h3>
+    <h5 class="text-center">
+        To create, edit or rate content, please log in using your credentials below.
+    </h5>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group mb-2">
+            {{ form.username|placeholder:"Enter username"|add_custom_class:"form-control" }}
+        </div>
+        <div class="form-group mb-2">
+            {{ form.password|placeholder:"Enter password"|add_custom_class:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-dark text-light">Login</button>
+        <input type="hidden" value="{{ next }}" name="next">
+
+    </form>
+
+    <p> Not registered? To register in Mommy's Cookbook all you need is an email!</p>
+    <p><a href="{% url 'user_register' %}" class="btn btn-secondary">Register</a><p>
+    <p> Don't want to register? You can still view all our recipes
+        <a href="{% url 'recipes_list' %}" class="">
+            <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook logo" height="40"
+                 class="d-inline-block align-bottom">
+            here,
+        </a>
+        no strings attached.
+    </p>
+
+
+
+
+
+
+
+{% endblock %}
+

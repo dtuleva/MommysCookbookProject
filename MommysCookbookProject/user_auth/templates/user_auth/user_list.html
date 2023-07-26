@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+    <ul> Recipes list:
+        {% for user in object_list %}
+            <li>
+{#                <a href="{% url '' %}">#}
+                    <h2> {{ user.username }} </h2>
+                    <p> {{ user.password }}</p>
+                    <p> {{ user.is_staff }}</p>
+{#                </a>#}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

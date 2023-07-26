@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+
+    <h3> Delete recipe</h3>
+
+    <h5> {{ recipe.title }}</h5>
+    <p> {{ recipe.description }}</p>
+
+    <form action="{% url 'recipe_delete' recipe.slug %}" method="post">
+        <button>Delete recipe</button>
+        {% csrf_token %}
+    </form>
+
+
+{% endblock %}

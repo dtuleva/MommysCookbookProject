@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main-content %}
+
+    <h3> Create new recipe</h3>
+
+    <form action="{% url 'recipe_create' %}" method="post">
+        New recipe form
+        {{ form.as_p }}
+        <button>Add recipe</button>
+
+        {% csrf_token %}
+    </form>
+
+
+{% endblock %}

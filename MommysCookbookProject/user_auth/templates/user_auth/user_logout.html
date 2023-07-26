@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block main-content %}
+
+    <h4>Log out</h4>
+
+    <i class="fa-solid fa-arrow-right-from-bracket" style="font-size: 5rem"></i>
+    <p>Are you sure you want to log out?</p>
+
+    <form action="{% url 'user_logout' %}" method="post">
+
+        <input type="hidden" value="{{ next }}" name="next">
+
+        <button class="btn btn-dark text-light btn-block">Yes, log out</button>
+
+        {% csrf_token %}
+
+    </form>
+    <p>
+        <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-secondary text-light btn-block">
+            No, go back to previous page
+        </a>
+    </p>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main-content %}
+    <h3> Profile details </h3>
+
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="{% static 'images/profile_img_default.jpg' %}" alt="Default profile image">
+        <div class="card-body">
+            {% if user.screen_name %}
+            <h5 class="card-title">{{ user.screen_name }}</h5>
+            {% endif %}
+            <h6 class="card-title">Username: {{ user.username }}</h6>
+            <p class="card-text">Email: {{ user.email }}</p>
+            <p class="card-text"><small class="text-muted">Joined Mommy's Cookbook <br> 3 months ago</small></p>
+            <p><a href="{% url 'user_change_password' %} " class="btn btn-dark text-light">Change password</a></p>
+            <p><a href="{% url 'user_edit' %}" class="btn btn-secondary text-light">Edit profile</a></p>
+        </div>
+    </div>
+
+
+{% endblock %}

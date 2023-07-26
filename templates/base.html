@@ -1,0 +1,128 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/cookbook_logo.jpg' %}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        /* Custom CSS for background image */
+        #background {
+            background-image: url("{% static 'images/background-with-kitchen-utensils-vector-24630288.jpg' %}");
+        }
+
+        #overlay {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            min-height: 60vh;
+        }
+    </style>
+    <title>Mommy's Cookbook</title>
+</head>
+
+<body>
+
+
+
+<header class="navbar navbar-expand-lg">
+    <div class="container">
+        <!-- Logo and Site Name -->
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook logo" height="40"
+                 class="d-inline-block align-center">
+            <h4 class="d-inline">Mommy's Cookbook</h4>
+            <h6 class="d-inline"> - All your recipes in one place</h6>
+        </a>
+
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+
+
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'index' %}"> Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'recipes_list' %}"> Recipes (List) </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'recipe_create' %}"> Add new recipe </a>
+                </li>
+
+                {% if request.user.is_authenticated %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_details' %}"> Profile </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_logout_confirm' %}"> Logout </a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_register' %}"> Register </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_login' %}"> Login </a>
+                    </li>
+
+                {% endif %}
+
+                <li>
+                    <a class="nav-link" href="{% url 'user_list' %}"> User_list </a>
+                </li>
+                <li>
+                    <a class="btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER|escape }}"> Go back </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</header>
+
+
+<main class="container-fluid text-center" id="background">
+
+
+    <div class="container">
+
+            <div id="overlay" class="container flex-column justify-content-evenly align-items-center rounded">
+
+
+                {% block main-content %}
+
+                {% endblock %}
+
+            </div>
+
+    </div>
+</main>
+
+{#todo: navbar not visible on long pages#}
+
+<footer class="navbar">
+
+    <p class="text-center">Mommy's Cookbook Project,
+        <a href="https://softuni.bg/trainings/4110/python-web-framework-june-2023" class="text-secondary">
+            Python Web Framework Course @ SoftUni
+        </a>,
+        August 2023
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
+
+
+{#  class="bg-dark text-light text-primary" #}
+{#navbar-primary#}

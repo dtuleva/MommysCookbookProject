@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block main-content %}
+
+    <h3 class="text-center">Welcome to Mommy's cookbook!</h3>
+    <h4 class="text-center mb-3">Create new profile</h4>
+
+    <form action="{% url 'user_register' %}" method="post">
+                <div class="form-group mb-2">
+                    {{ form.username|placeholder:"Enter username"|add_custom_class:"form-control" }}
+                </div>
+                <div class="form-group mb-2">
+                    {{ form.email|placeholder:"Enter email"|add_custom_class:"form-control" }}
+                </div>
+                <div class="form-group mb-2">
+                    {{ form.password1|placeholder:"Enter password"|add_custom_class:"form-control" }}
+                </div>
+                <div class="form-group mb-2">
+                    {{ form.password2|placeholder:"Repeat password"|add_custom_class:"form-control" }}
+                </div>
+
+        <button class="btn btn-dark mb-3">Register</button>
+
+        <input type="hidden" value="{{ next }}" name="next">
+
+
+        {% csrf_token %}
+
+    </form>
+    <p> Already registered? </p>
+    <p><a href="{% url 'user_login' %}" class="btn btn-secondary">Login</a><p>
+    <p> Don't want to register? You can still view all our recipes
+        <a href="{% url 'recipes_list' %}" class="">
+            <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook logo" height="40"
+                 class="d-inline-block align-bottom">
+            here,
+        </a>
+        no strings attached.
+    </p>
+
+{% endblock %}
+
