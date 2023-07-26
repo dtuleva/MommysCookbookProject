@@ -1,14 +1,49 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block main-content %}
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="row no-gutters">
+                <div class="col-md-4" >
+                    <img src="{% static 'images/profile_img_default.jpg' %}" class="card-img" alt="Image">
+                </div>
+                <div class="col-md-8" >
+                    <div class="card-body">
+                        <div>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <h2 class="card-title">{{ recipe.title }}</h2>
+                        <hr>
+                        <h5 class="card-title">INGREDIENTS</h5>
+                        <p class="card-text">{{ recipe.ingredients }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters">
+            <h3 class="card-title">{{ recipe.description }}</h3>
+            <h5 class="card-title">DIRECTIONS</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean auctor,
+                            purus sit amet
+                            euismod ullamcorper, dolor elit elementum metus, quis lacinia nunc libero id odio.</p>
+            </div>
+        </div>
+    </div>
+
+    {#    endtry    #}
 
     <h3> Single recipe details page</h3>
 
     <h2> {{ recipe.title }} </h2>
     <p> {{ recipe.description }}</p>
-{#    {% if 'user has rights' %}#}
+    {#    {% if 'user has rights' %}#}
     <a href="{% url 'recipe_edit' recipe.slug %}"> Edit recipe </a>
     <a href="{% url 'recipe_delete' recipe.slug %}"> DELETE </a>
-{#    {% endif %}#}
+    {#    {% endif %}#}
 
 {% endblock %}
