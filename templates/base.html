@@ -18,9 +18,9 @@
 
         #background {
             background-image: url("{% static 'images/background-with-kitchen-utensils-vector-24630288.jpg' %}");
-            background-size: contain;
+            background-size: cover;
             background-color: #f5f1e6; /* Fallback background color */
-            height: 95vh;
+        {#height: 95vh;#}
         }
 
         #overlay {
@@ -31,6 +31,9 @@
         .bg-light-brown {
             background-color: #f5f1e6;
         }
+        .bg-brown {
+            background-color: #c2a38e;
+        }
     </style>
 
 </head>
@@ -38,7 +41,7 @@
 <body>
 
 
-<header class="navbar navbar-expand-lg navbar-dark bg-light-brown ">
+<header class="navbar navbar-expand-lg navbar-dark bg-brown py-0">
     <div class="container">
         <!-- Logo and Site Name -->
         <a class="navbar-brand" href="{% url 'index' %}">
@@ -95,39 +98,37 @@
     </div>
 </header>
 
-<main class="container-fluid text-center overflow-auto" id="background">
+<main class="container-fluid text-center flex-column pt-5" id="background" role="main">
 
 
-    <div class="container">
+    <div class="mt-5 px-5 pt-3">
 
-        <div id="overlay" class="container flex-column justify-content-evenly align-items-center rounded">
+        <div id="overlay"
+             class="container-fluid flex-column justify-content-evenly align-items-center rounded overflow-auto">
 
-            {#<div class="container-fluid">#}
-            {##}
-            {#    <div class="justify-content-center mt-30">#}
-            {##}
-            {#        <div class="overlay">#}
-            {##}
-            {#            <main class="flex-column justify-content-evenly align-items-center rounded p-2">#}
+        <div class="p-5">
+
             {% block main-content %}
 
             {% endblock %}
+        </div>
+
+
 
         </div>
 
     </div>
+    <footer class="container w-50 justify-content-center align-items-center navbar bg-brown rounded mb-3 pb-1">
+
+        <p class="text-center text-light ">Mommy's Cookbook Project,
+            <a href="https://softuni.bg/trainings/4110/python-web-framework-june-2023">
+                Python Web Framework Course @ SoftUni
+            </a>,
+            August 2023
+        </p>
+
+    </footer>
 </main>
-
-<footer class="navbar bg-light-brown">
-
-    <p class="text-center">Mommy's Cookbook Project,
-        <a href="https://softuni.bg/trainings/4110/python-web-framework-june-2023" class="text-secondary">
-            Python Web Framework Course @ SoftUni
-        </a>,
-        August 2023
-    </p>
-
-</footer>
 
 
 
