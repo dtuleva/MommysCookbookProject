@@ -14,23 +14,23 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
     <style>
-        /* Custom CSS for background image */
+        /* Custom CSS for background */
 
         #background {
             background-image: url("{% static 'images/background-with-kitchen-utensils-vector-24630288.jpg' %}");
             background-size: cover;
             background-color: #f5f1e6; /* Fallback background color */
-        {#height: 95vh;#}
+            min-height: 100vh;
         }
 
         #overlay {
             background-color: rgba(255, 255, 255, 0.9) !important;
-        {#min-height: 60vh;#}
         }
 
         .bg-light-brown {
             background-color: #f5f1e6;
         }
+
         .bg-brown {
             background-color: #c2a38e;
         }
@@ -106,13 +106,12 @@
         <div id="overlay"
              class="container-fluid flex-column justify-content-evenly align-items-center rounded overflow-auto">
 
-        <div class="p-5">
+            <div class="p-5">
 
-            {% block main-content %}
+                {% block main-content %}
 
-            {% endblock %}
-        </div>
-
+                {% endblock %}
+            </div>
 
 
         </div>
@@ -130,12 +129,7 @@
     </footer>
 </main>
 
-
-
 </body>
 
 </html>
 
-
-{#  class="bg-dark text-light text-primary" #}
-{#navbar-primary#}
