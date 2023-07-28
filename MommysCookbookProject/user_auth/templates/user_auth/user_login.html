@@ -4,21 +4,35 @@
 
 {% block main-content %}
 
+<div style="max-width: 24rem">
 
+{#todo: errormessages not centered#}
 
-    <h3 class="text-center">Welcome to Mommy's cookbook!</h3>
-    <h5 class="text-center">
+    <h3 class="text-center">Welcome to <br> Mommy's cookbook!</h3>
+    <h6 class="text-center mb-4">
         To create, edit or rate content, please log in using your credentials below.
-    </h5>
-    <form method="post">
+    </h6>
+
+    <form method="post" class="mb-3">
         {% csrf_token %}
         <div class="form-group mb-2">
-            {{ form.username|placeholder:"Enter username"|add_custom_class:"form-control" }}
+            {{ form.username|add_custom_class:"form-control" }}
         </div>
+
         <div class="form-group mb-2">
-            {{ form.password|placeholder:"Enter password"|add_custom_class:"form-control" }}
+            {{ form.password|add_custom_class:"form-control" }}
         </div>
+
+        {% if form.non_field_errors %}
+            <div class="error-message mb-2">
+                {% for error in form.non_field_errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <button type="submit" class="btn btn-dark text-light">Login</button>
+
         <input type="hidden" value="{{ next }}" name="next">
 
     </form>
@@ -34,7 +48,7 @@
         no strings attached.
     </p>
 
-
+</div>
 
 
 

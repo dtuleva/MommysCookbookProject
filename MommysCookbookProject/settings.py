@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "django.contrib.humanize",
+
     # Project Apps
     "MommysCookbookProject.home",
     "MommysCookbookProject.recipe",

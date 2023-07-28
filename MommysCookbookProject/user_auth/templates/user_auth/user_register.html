@@ -4,20 +4,25 @@
 
 {% block main-content %}
 
-    <h3 class="text-center">Welcome to Mommy's cookbook!</h3>
+<div style="max-width: 24rem">
+    <h3 class="text-center">Welcome to <br> Mommy's cookbook!</h3>
     <h4 class="text-center mb-3">Create new profile</h4>
 
     <form action="{% url 'user_register' %}" method="post">
                 <div class="form-group mb-2">
+                    {{ form.username.errors }}
                     {{ form.username|placeholder:"Enter username"|add_custom_class:"form-control" }}
                 </div>
                 <div class="form-group mb-2">
+                    {{ form.email.errors }}
                     {{ form.email|placeholder:"Enter email"|add_custom_class:"form-control" }}
                 </div>
                 <div class="form-group mb-2">
+                    {{ form.password1.errors }}
                     {{ form.password1|placeholder:"Enter password"|add_custom_class:"form-control" }}
                 </div>
                 <div class="form-group mb-2">
+                    {{ form.password2.errors }}
                     {{ form.password2|placeholder:"Repeat password"|add_custom_class:"form-control" }}
                 </div>
 
@@ -39,6 +44,7 @@
         </a>
         no strings attached.
     </p>
+</div>
 
 {% endblock %}
 

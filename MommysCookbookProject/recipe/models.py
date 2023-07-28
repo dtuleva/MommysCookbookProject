@@ -83,6 +83,8 @@ class Recipe(models.Model):
         super().save(*args, **kwargs)
         if not self.slug:
             self.slug = slugify(self.title)
+        # if not self.owner: Todo: add owner funct
+        #     self.owner =
         return super().save(*args, **kwargs)
 
 #     rating = models.IntegerField(default=0, choices=[(i, str(i)) for i in range(6)])

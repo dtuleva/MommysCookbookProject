@@ -6,7 +6,6 @@ from django.views import generic as views
 from MommysCookbookProject.recipe.models import Recipe
 
 
-# maybe todo: success the s out of all models and add mixins for pretty forms and disabled fields(for user too)
 class RecipesListView(views.ListView):
     template_name = "recipe/recipes_list.html"
     model = Recipe
