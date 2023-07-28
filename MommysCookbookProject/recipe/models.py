@@ -1,10 +1,12 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.text import slugify
 
 from MommysCookbookProject.user_auth.models import CookbookUser
+from validators.validators import validate_image_max_size_5_mb
 
 
-# todo: Validation on model level to have access to it evereywhere - source Doncho
+# todo: Validation on model level to have access to it everywhere - source Doncho
 class Recipe(models.Model):
     TITLE_MAX_LEN = 50
     DESCRIPTION_MAX_LEN = 300
@@ -66,6 +68,16 @@ class Recipe(models.Model):
         null=True,
         blank=True,
         default=None
+    )
+    image = models.ImageField(
+        upload_to=f"recipe_images",
+        validators=(
+            FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
+            validate_image_max_size_5_mb,
+        ),
+        blank=True,
+        null=True,
+        default="recipe_images/recipe_img_default.jpg",
     )
 
     def save(self, *args, **kwargs):
