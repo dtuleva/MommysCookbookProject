@@ -6,7 +6,7 @@
     <h3> Profile details </h3>
 
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ user.image.url }}" alt="Profile image">
+        <img class="card-img-top" src="{{ user.profile_picture.url }}" alt="Profile image">
         <div class="card-body">
             {% if user.screen_name %}
             <h5 class="card-title">{{ user.screen_name }}</h5>

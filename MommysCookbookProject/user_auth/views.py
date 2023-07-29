@@ -33,8 +33,8 @@ class UserRegisterView(views.CreateView):
 
 
 class UserLoginView(auth_views.LoginView):  # todo: username or pass invalid message, redirect already logged
-    form_class = CookbookLoginForm
     template_name = "user_auth/user_login.html"
+    form_class = CookbookLoginForm
     redirect_authenticated_user = False
 
 
@@ -70,7 +70,6 @@ class UserUpdateView(CurrentUserMixin, views.UpdateView):
     template_name = 'user_auth/user_edit.html'
     fields = ['username', 'email', 'screen_name']  # todo: add all fields
     success_url = reverse_lazy('user_details')
-
 
 class UserDeleteView(CurrentUserMixin, views.DeleteView):
     model = get_user_model()

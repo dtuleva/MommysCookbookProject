@@ -26,3 +26,9 @@ class CookbookLoginForm(auth_forms.AuthenticationForm):
         class Meta(auth_forms.UserCreationForm.Meta):
             model = get_user_model()
             fields = ("username", "email")
+
+
+# class CookbookUserUpdateForm(auth_forms.UserChangeForm):
+#     class Meta(auth_forms.UserCreationForm.Meta):
+#         model = get_user_model()
+#         fields = ("username", "email, screen_name")

@@ -35,8 +35,12 @@ class RecipeEditView(views.UpdateView): # todo: add owns_rec or is admin permiss
         return reverse_lazy("recipe_details", kwargs={'slug': self.object.slug})
 
 
+class RecipeConfirmDeleteView(views.TemplateView):
+    template_name = "recipe/recipes_confirm_delete.html"
+
 class RecipeDeleteView(views.DeleteView): # todo: add owns_rec or is admin permission
     model = Recipe
     template_name = "recipe/recipes_delete.html"
     success_url = reverse_lazy("index")
-    # todo: add are you sure to delete that? page (or popup)
+
+

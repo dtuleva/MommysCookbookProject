@@ -2,13 +2,14 @@
 
 {% block main-content %}
 
-    <h3> Delete recipe</h3>
+    <h3>Delete Recipe</h3>
+    <p>Hey, {{ user }} do you really want to delete this recipe?</p>
+    <p><i class="fa-solid fa-trash-can" style="font-size: 5rem"></i></p>
 
     <h5> {{ recipe.title }}</h5>
-    <p> {{ recipe.description }}</p>
 
     <form action="{% url 'recipe_delete' recipe.slug %}" method="post">
-        <button>Delete recipe</button>
+        <button class="btn btn-danger text-dark">Delete recipe</button>
         {% csrf_token %}
     </form>
 

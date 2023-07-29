@@ -2,13 +2,15 @@
 
 {% block main-content %}
 
-    <h3> Delete profile</h3>
-    <p> Hey, {{ user }}, do you really want to delete your profile?</p>
+
+    <h3> Delete Profile </h3>
+    <p>Hey, {{ user }}, do you really want to delete your profile?</p>
+    <p><i class="fa-solid fa-trash-can" style="font-size: 5rem"></i></p>
     <h5> {{ user.username }}</h5>
     <p> {{ user.email }}</p>
 
     <form action="{% url 'user_delete'%}" method="post">
-        <button>Delete profile</button>
+        <button class="btn btn-danger text-dark">Delete profile</button>
         {% csrf_token %}
     </form>
 
