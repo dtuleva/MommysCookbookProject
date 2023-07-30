@@ -11,6 +11,8 @@
                 </div>
                 <div class="col-md-4 px-3 py-5">
                     <div class="card-body">
+
+                        Average Rating: {{ recipe.get_average_rating }}
                         <div class="mb-3">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
@@ -18,6 +20,27 @@
                             <i class="fa-regular fa-star-half-stroke"></i>
                             <i class="fa-regular fa-star"></i>
                         </div>
+
+                        {% if user.is_authenticated %}
+                            <div class="">Rate this recipe:</div>
+                            <form method="post" action="{% url 'rate_recipe' slug=recipe.slug %}" class="mb-3">
+                                {% csrf_token %}
+
+                                <select name="stars" id="stars">
+                                    <option value="5">5 stars</option>
+                                    <option value="4">4 stars</option>
+                                    <option value="3">3 stars</option>
+                                    <option value="2">2 stars</option>
+                                    <option value="1">1 star</option>
+
+                                </select>
+                                <button type="submit" class="btn btn-dark text-light btn-sm m-2">Submit</button>
+                            </form>
+                        {% endif %}
+
+
+
+
                         <h2 class="card-title">{{ recipe.title }}</h2>
                         {% if recipe.prep_time or recipe.cook_time or recipe.servings %}
                             <div class="container fs-4">
@@ -58,9 +81,12 @@
                 <h4 class="card-title">DIRECTIONS</h4>
                 <p class="card-text">{{ recipe.instructions|linebreaks }}</p>
             </div>
+            <div class="card-body">
+                <p class="fs-6 fst-italic pt-4">Recipe by: {{ recipe.owner }}</p>
+            </div>
 
             {% if recipe.owner == request.user %}
-                <div class="row no-gutters px-3 py-5">
+                <div class="row no-gutters px-3">
                     <div class="card-body">
                         <a href="{% url 'recipe_edit' recipe.slug %}" class="btn btn-dark">
                             Edit recipe

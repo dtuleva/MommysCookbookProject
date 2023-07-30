@@ -1,8 +1,8 @@
-from django.core.validators import FileExtensionValidator
+from django.contrib.auth import get_user_model
+from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.text import slugify
 
-from MommysCookbookProject.user_auth.models import CookbookUser
 from validators.validators import validate_image_max_size_5_mb
 
 
@@ -15,8 +15,8 @@ class Recipe(models.Model):
     title = models.CharField(
         max_length=TITLE_MAX_LEN,
         unique=True,
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
     )
 
     description = models.TextField(
@@ -59,11 +59,13 @@ class Recipe(models.Model):
     )
 
     created_at = models.DateTimeField(
-        auto_now_add=True
+        auto_now_add=True,
+        editable=False,
+
     )
     owner = models.ForeignKey(
-        CookbookUser,
-        on_delete=models.SET_DEFAULT,
+        to=get_user_model(),
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         default=None
@@ -79,16 +81,41 @@ class Recipe(models.Model):
         default="recipe_images/recipe_img_default.jpg",
     )
 
+    def get_average_rating(self):
+        ratings = Rating.objects.filter(recipe=self)
+        if ratings.exists():
+            total_stars = sum(rating.stars for rating in ratings)
+            return total_stars / ratings.count()
+        return 0
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.slug:
             self.slug = slugify(self.title)
-        # if not self.owner: Todo: add owner funct
-        #     self.owner =
+
         return super().save(*args, **kwargs)
 
-#     rating = models.IntegerField(default=0, choices=[(i, str(i)) for i in range(6)])
+
+
+
 #     is_private = models.BooleanField(default=False)
-#     slug = models.SlugField(unique=True, blank=True)
-#     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-#     image = models.ImageField(upload_to='recipes/', blank=True, default='path/to/default/image.jpg')
+
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(
+        to=get_user_model(),
+        on_delete=models.CASCADE,
+    )
+    recipe = models.ForeignKey(
+        to=Recipe,
+        on_delete=models.CASCADE,
+    )
+    stars = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(5)
+        ]
+    )
+    class Meta:
+        unique_together = ('user', 'recipe')
