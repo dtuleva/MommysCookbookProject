@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block overlay %}
+
+    <div id="overlay"
+         class="container-fluid mx-auto p-5 flex-column rounded overflow-auto" style="background-color: rgba(255, 255, 255, 0.9)">
+
+
+        {% block main-content %}
+
+        {% endblock %}
+
+
+    </div>
+
+{% endblock %}

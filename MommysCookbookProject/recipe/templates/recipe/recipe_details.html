@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "overlay_full_width.html" %}
 {% load static %}
 
 {% block main-content %}
@@ -63,6 +63,16 @@
                                             <i class="fa-solid fa-clock"></i>
                                             {{ recipe.cook_time }}
                                             <span class="fs-6 fst-italic">min</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if recipe.servings %}
+                                    <div>
+                                        <small class="fs-6 fst-italic">Servings</small>
+                                        <div class="fw-bold">
+                                            <i class="fa-solid fa-utensils"></i>
+                                            {{ recipe.servings }}
                                         </div>
                                     </div>
                                 {% endif %}

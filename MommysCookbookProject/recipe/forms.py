@@ -13,32 +13,32 @@ class RecipeCreateForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Enter the recipe title'
             }),
-            'description': forms.TextInput(attrs={
+            'description': forms.Textarea(attrs={
                 'class': 'form-control',
-                'rows': 5,
+                'rows': 3,
                 'placeholder': 'Enter a brief description of the recipe'
             }),
-            'ingredients': forms.TextInput(attrs={
+            'ingredients': forms.Textarea(attrs={
                 'class': 'form-control',
-                'rows': 5,
+                'rows': 10,
                 'placeholder': 'Enter the list of ingredients'
             }),
-            'instructions': forms.TextInput(attrs={
+            'instructions': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 10,
                 'placeholder': 'Enter the cooking instructions'
             }),
             'prep_time': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter preparation time'
+                'placeholder': 'Preparation time in MINUTES'
             }),
             'cook_time': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter cooking time'
+                'placeholder': 'Cooking time in MINUTES'
             }),
             'servings': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter number of servings'
+                'placeholder': 'Number of servings'
             }),
             'image': forms.FileInput(attrs={
                 'class': 'form-control-file'

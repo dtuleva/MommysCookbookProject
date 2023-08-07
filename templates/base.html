@@ -98,38 +98,37 @@
     </div>
 </header>
 
-<main class="container-fluid text-center flex-column pt-5" id="background" role="main">
+<main class="text-center p-5" id="background" role="main">
 
 
-    <div class="mt-5 px-5 pt-3">
-
-        <div id="overlay"
-             class="container-fluid flex-column justify-content-evenly align-items-center rounded overflow-auto">
-
-            <div class="p-5">
-
-                {% block main-content %}
-
-                {% endblock %}
-            </div>
 
 
-        </div>
 
-    </div>
-    <footer class="container w-50 justify-content-center align-items-center navbar bg-brown rounded mb-3 pb-1">
+        {% block overlay %}
+
+        {% endblock %}
+
+
+
+    <footer class="container w-50 justify-content-center align-items-center navbar bg-brown rounded my-3 pb-1">
 
         <p class="text-center text-light ">Mommy's Cookbook Project,
             <a href="https://softuni.bg/trainings/4110/python-web-framework-june-2023">
                 Python Web Framework Course @ SoftUni
-            </a>,
+            </a> <br>
             August 2023
         </p>
 
     </footer>
 </main>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../assets/js/vendor/popper.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
-

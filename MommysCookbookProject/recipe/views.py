@@ -36,7 +36,7 @@ class RecipeCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 class RecipeEditView(views.UpdateView): # todo: add owns_rec or is admin permission
     model = Recipe
     template_name = "recipe/recipe_edit.html"
-    fields = ("title", "description", "ingredients", "instructions")
+    form_class = RecipeCreateForm
 
     def get_success_url(self):
         return reverse_lazy("recipe_details", kwargs={'slug': self.object.slug})
