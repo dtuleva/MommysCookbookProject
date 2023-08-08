@@ -8,136 +8,144 @@
         <div class="card">
             <div class="row no-gutters">
                 {% if recipe.image.url != '/media/recipe_images/recipe_img_default.jpg' %}
-                <div class="col-md-8">
-                    <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
-                </div>
+                    <div class="col-md-8">
+                        <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
+                    </div>
                     <div class="col-md-4 px-3 py-5">
                 {% else %}
-                <div class="col-md-3">
-                    <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
-                </div>
+                    <div class="col-md-3">
+                        <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
+                    </div>
                     <div class="col-md-9 px-3 py-5">
                 {% endif %}
 
 
-                    <div class="card-body">
+                <div class="card-body">
 
 
-                        {#                        <div class="mb-3">#}
-                        {#                            {% for star in recipe.get_average_rating %}#}
-                        {#                                <i class="fa-solid fa-star"></i>#}
-                        {#                            {% endfor %}#}
-                        {#                            <i class="fa-solid fa-star"></i>#}
-                        {#                            <i class="fa-solid fa-star"></i>#}
-                        {#                            <i class="fa-regular fa-star-half-stroke"></i>#}
-                        {#                            <i class="fa-regular fa-star"></i>#}
-                        {#                        </div>#}
-                        <div class="mb-3">
+                    <div class="mb-3 fst-italic">
 
-                            {% with recipe.get_average_rating as rating %}
-                                Average Rating: {{ rating }}
-                                <div class="rating-stars">
-                                    {% for star_class in rating|rating_stars %}
-                                        <i class="{{ star_class }}"></i>
-                                    {% endfor %}
-                                </div>
-                            {% endwith %}
-                        </div>
-
-
-
-                        {% if user.is_authenticated %}
-
-                            <form method="post" action="{% url 'rate_recipe' slug=recipe.slug %}"
-                                  class="mt-2 mb-3">
-                                {% csrf_token %}
-                                <label class="form-check-label d-block" for="stars">Rate this recipe:</label>
-                                <select name="stars" id="stars">
-                                    <option value="5">5 stars</option>
-                                    <option value="4">4 stars</option>
-                                    <option value="3">3 stars</option>
-                                    <option value="2">2 stars</option>
-                                    <option value="1">1 star</option>
-
-                                </select>
-                                <button type="submit" class="btn btn-dark text-light btn-sm m-2">Submit</button>
-                            </form>
-                        {% endif %}
-
-
-
-
-                        <h1 class="card-title">{{ recipe.title }}</h1>
-                        {% if recipe.prep_time or recipe.cook_time or recipe.servings %}
-                            <div class="container fs-5 mt-4">
-                                <div class="row">
-
-                                    {% if recipe.prep_time %}
-                                        <div class="col-md-4 text-center">
-                                            <div class="fs-6 fst-italic">Prep Time</div>
-                                            <div class="fw-bold">
-                                                <i class="fa-regular fa-clock"></i>
-                                                {{ recipe.prep_time }}
-                                                <span class="fs-6 fst-italic">min</span>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-
-                                    {% if recipe.cook_time %}
-                                        <div class="col-md-4 text-center">
-                                            <div class="fs-6 fst-italic">Cook Time</div>
-                                            <div class="fw-bold">
-                                                <i class="fa-solid fa-clock"></i>
-                                                {{ recipe.cook_time }}
-                                                <span class="fs-6 fst-italic">min</span>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-
-                                    {% if recipe.servings %}
-                                        <div class="col-md-4 text-center">
-                                            <div class="fs-6 fst-italic">Servings</div>
-                                            <div class="fw-bold">
-                                                <i class="fa-solid fa-utensils"></i>
-                                                {{ recipe.servings }}
-                                            </div>
-                                        </div>
-
-                                    {% endif %}
-
-                                </div>
+                        {% with recipe.get_average_rating as rating %}
+                            Average Rating: {{ rating }}
+                            <div class="rating-stars">
+                                {% for star_class in rating|rating_stars %}
+                                    <i class="{{ star_class }}"></i>
+                                {% endfor %}
                             </div>
+                        {% endwith %}
+                    </div>
+
+                    {% if user.is_authenticated %}
+
+                        <form method="post" action="{% url 'rate_recipe' slug=recipe.slug %}"
+                              class="mt-2 mb-3">
+                            {% csrf_token %}
+                            <label class="form-check-label d-block" for="stars">Rate this recipe:</label>
+                            <select name="stars" id="stars">
+                                <option value="5">5 stars</option>
+                                <option value="4">4 stars</option>
+                                <option value="3">3 stars</option>
+                                <option value="2">2 stars</option>
+                                <option value="1">1 star</option>
+
+                            </select>
+                            <button type="submit" class="btn btn-dark text-light btn-sm m-2">Submit</button>
+                        </form>
+                    {% endif %}
+
+                </div>
+                <h1 class="card-title">{{ recipe.title }}</h1>
+                <div class="row fs-6 fst-italic">
+                    {% if user.is_authenticated %}
+                        <div class="container d-flex justify-content-center">
+                            <a href="{% url 'favorites_update' recipe.slug %}"
+                               class="d-flex align-items-center text-decoration-none text-dark">
+                                {% if is_in_favorites %}
+                                    <i class="fa-solid fa-heart fs-1"></i>
+                                    Remove from Favorites
+                                {% else %}
+                                    <i class="fa-regular fa-heart fs-1"></i>
+                                    Add to Favorites
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if recipe.prep_time or recipe.cook_time or recipe.servings %}
+                        <div class="container fs-5 mt-4">
+                            <div class="row">
+
+                                {% if recipe.prep_time %}
+                                    <div class="col-md-4 text-center">
+                                        <div class="fs-6 fst-italic">Prep Time</div>
+                                        <div class="fw-bold">
+                                            <i class="fa-regular fa-clock"></i>
+                                            {{ recipe.prep_time }}
+                                            <span class="fs-6 fst-italic">min</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if recipe.cook_time %}
+                                    <div class="col-md-4 text-center">
+                                        <div class="fs-6 fst-italic">Cook Time</div>
+                                        <div class="fw-bold">
+                                            <i class="fa-solid fa-clock"></i>
+                                            {{ recipe.cook_time }}
+                                            <span class="fs-6 fst-italic">min</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if recipe.servings %}
+                                    <div class="col-md-4 text-center">
+                                        <div class="fs-6 fst-italic">Servings</div>
+                                        <div class="fw-bold">
+                                            <i class="fa-solid fa-utensils"></i>
+                                            {{ recipe.servings }}
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    {% endif %}
+                    <hr>
+                    <h4 class="card-title">INGREDIENTS</h4>
+                    <p class="card-text">{{ recipe.ingredients|linebreaks }}</p>
+                </div>
+                </div>
+                </div>
+                <div class="row no-gutters px-3 py-5">
+                    <h5 class="card-text">{{ recipe.description }}</h5>
+                    <h4 class="card-title mt-4">DIRECTIONS</h4>
+                    <p class="card-text">{{ recipe.instructions|linebreaks }}</p>
+                </div>
+                <div class="card-body">
+                    <input type="text" placeholder="todo">
+                </div>
+                <div class="card-footer">
+                    <p class="fs-6 fst-italic pt-4">Recipe by: {{ recipe.owner }}</p>
+                    <p>
+                        {% if recipe.owner == request.user %}
+
+                            <a href="{% url 'recipe_edit' recipe.slug %}" class="btn btn-dark">
+                                Edit recipe
+                            </a>
+                            <a href="{% url 'recipe_delete' recipe.slug %}" class="btn btn-danger text-dark">
+                                Delete recipe
+                            </a>
+
                         {% endif %}
-                        <hr>
-                        <h4 class="card-title">INGREDIENTS</h4>
-                        <p class="card-text">{{ recipe.ingredients|linebreaks }}</p>
-                    </div>
+                    </p>
                 </div>
-            </div>
-            <div class="row no-gutters px-3 py-5">
-                <h5 class="card-text">{{ recipe.description }}</h5>
-                <h4 class="card-title mt-4">DIRECTIONS</h4>
-                <p class="card-text">{{ recipe.instructions|linebreaks }}</p>
-            </div>
-            <div class="card-body">
-                <p class="fs-6 fst-italic pt-4">Recipe by: {{ recipe.owner }}</p>
-            </div>
 
-            {% if recipe.owner == request.user %}
-                <div class="row no-gutters px-3">
-                    <div class="card-body">
-                        <a href="{% url 'recipe_edit' recipe.slug %}" class="btn btn-dark">
-                            Edit recipe
-                        </a>
-                        <a href="{% url 'recipe_delete' recipe.slug %}" class="btn btn-danger text-dark">
-                            Delete recipe
-                        </a>
-                    </div>
-                </div>
-            {% endif %}
 
+            </div>
         </div>
     </div>
+
 
 
 {% endblock %}

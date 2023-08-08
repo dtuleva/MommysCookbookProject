@@ -1,12 +1,15 @@
 from django.contrib.auth import mixins as auth_mixins
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import modelform_factory
+
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+
 from django.views import generic as views, View
 
 from MommysCookbookProject.recipe.forms import RecipeCreateUpdateForm
 from MommysCookbookProject.recipe.models import Recipe, Rating
+from MommysCookbookProject.user_auth.views import CurrentUserMixin
 
 
 class RecipesListView(views.ListView):
@@ -32,6 +35,16 @@ class RecipesListView(views.ListView):
 class RecipeDetailsView(views.DetailView):
     model = Recipe
     template_name = "recipe/recipe_details.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipe = self.object
+        owner = self.request.user
+
+        is_in_favorites = recipe.favorite_set.filter(owner=owner).exists()
+        context['is_in_favorites'] = is_in_favorites
+
+        return context
 
 
 class RecipeCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):

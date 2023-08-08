@@ -70,7 +70,6 @@ class Recipe(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        default=None
     )
     image = models.ImageField(
         upload_to="recipe_images",
@@ -98,9 +97,6 @@ class Recipe(models.Model):
         return super().save(*args, **kwargs)
 
 
-
-
-#     is_private = models.BooleanField(default=False)
 
 
 
