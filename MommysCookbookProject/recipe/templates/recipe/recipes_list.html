@@ -1,16 +1,66 @@
 {% extends "overlay_full_width.html" %}
+{% load static %}
 
 {% block main-content %}
-    <ul> Recipes list:
-        {% for recipe in recipes %}
-            <li>
-                <a href="{% url 'recipe_details' recipe.slug %}">
-                    <h2> {{ recipe.title }} </h2>
-                    <p> {{ recipe.description }}</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="{% static 'images/recipes.jpg' %}" alt="Recipes" height="300" class="">
+            </div>
+            <div class="col-md-5">
+
+                <form action="{% url 'recipes_list' %}?page={{ page_obj.number }}" class="m-3">
+                    {% csrf_token %}
+
+
+                    <input name="search" value="{{ search }}" class="form-control m-3">
+
+
+                    <button class="btn btn-dark">Search by title</button>
+
+
+                    <a href="{% url 'recipe_create' %}" class="btn btn-light btn-outline-secondary"> Add new recipe </a>
+
+
+                </form>
+            </div>
+        </div>
+        <div class="card-group">
+            {% for recipe in recipes %}
+                {#            {% if forloop.counter <= 5 %}#}
+                <a href="{% url 'recipe_details' recipe.slug %}" class="text-decoration-none m-2">
+                    <div class="card" style="width: 16rem;">
+                        <img class="card-img-top" src="{{ recipe.image.url }}" alt="Recipe image">
+                        <div class="card-body">
+
+                            <h4 class="card-title">{{ recipe.title }}</h4>
+                            <p class="card-text">{{ recipe.description }}</p>
+                            <p class="card-footer">
+                                <small class="text-muted">
+                                    Recipe by: {{ recipe.owner }}
+                                </small>
+                            </p>
+                        </div>
+                    </div>
                 </a>
-            </li>
-        {% endfor %}
-    </ul>
+                {#            {% endif %}#}
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&lt; Previous page</a>
+        {% else %}
+            <a class="text-secondary">&lt;</a>
+        {% endif %}
+
+        {{ page_obj.number }} / {{ paginator.num_pages }}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&gt; Next page</a>
+        {% else %}
+            <a class="text-secondary">&gt;</a>
+        {% endif %}
+    </div>
 
 {% endblock %}
 

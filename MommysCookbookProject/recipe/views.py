@@ -13,6 +13,20 @@ class RecipesListView(views.ListView):
     template_name = "recipe/recipes_list.html"
     model = Recipe
     context_object_name = "recipes"
+    paginate_by = 9
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        search = self.request.GET.get('search', '')
+        queryset = queryset.filter(title__icontains=search)
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['search'] = self.request.GET.get('search', '')
+        # context['categories'] = Category.objects.all()
+        return context
 
 
 class RecipeDetailsView(views.DetailView):
