@@ -5,7 +5,7 @@
 
 
         <h1>Edit Recipe</h1>
-        <form action="{% url 'recipe_edit' recipe.slug %}" method="post">
+        <form action="{% url 'recipe_edit' recipe.slug %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
 

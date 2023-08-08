@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator, MinLengthValidator
 from django.db import models
 from django.utils.text import slugify
 
@@ -7,13 +7,15 @@ from validators.validators import validate_image_max_size_5_mb
 
 
 class Recipe(models.Model):
-    TITLE_MAX_LEN = 50
-    DESCRIPTION_MAX_LEN = 300
+    TITLE_MAX_LEN = 100
+    TITLE_MIN_LEN = 5
+    DESCRIPTION_MAX_LEN = 500
     INGREDIENTS_MAX_LEN = 1000
     INSTRUCTIONS_MAX_LEN = 5000
 
     title = models.CharField(
         max_length=TITLE_MAX_LEN,
+        validators=(MinLengthValidator(TITLE_MIN_LEN),),
         unique=True,
         blank=False,
         null=False,
@@ -71,7 +73,7 @@ class Recipe(models.Model):
         default=None
     )
     image = models.ImageField(
-        upload_to=f"recipe_images",
+        upload_to="recipe_images",
         validators=(
             FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
             validate_image_max_size_5_mb,
@@ -91,7 +93,7 @@ class Recipe(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify(f"{self.title}-{self.pk}")
 
         return super().save(*args, **kwargs)
 

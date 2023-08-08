@@ -6,7 +6,7 @@ from django.contrib.auth import mixins as auth_mixins
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from MommysCookbookProject.user_auth.forms import CookbookUserRegisterForm, CookbookLoginForm
+from MommysCookbookProject.user_auth.forms import CookbookUserRegisterForm, CookbookLoginForm, ProfilePictureUpdate
 
 
 class UserRegisterView(views.CreateView):
@@ -68,8 +68,9 @@ class UserDetailsView(CurrentUserMixin, views.DetailView):
 class UserUpdateView(CurrentUserMixin, views.UpdateView):
     model = get_user_model()
     template_name = 'user_auth/user_edit.html'
-    fields = ['username', 'email', 'screen_name']  # todo: add all fields
+    fields = ['username', 'email', 'screen_name']
     success_url = reverse_lazy('user_details')
+
 
 class UserDeleteView(CurrentUserMixin, views.DeleteView):
     model = get_user_model()
@@ -89,3 +90,10 @@ class UserPasswordChangeSuccessView(views.TemplateView):
 class UserListView(auth_mixins.LoginRequiredMixin, views.ListView):
     template_name = "user_auth/user_list.html"
     model = get_user_model()
+
+
+class UserPictureChangeView(CurrentUserMixin, views.UpdateView):
+    template_name = "user_auth/user_change_picture.html"
+    form_class = ProfilePictureUpdate
+    model = get_user_model()
+

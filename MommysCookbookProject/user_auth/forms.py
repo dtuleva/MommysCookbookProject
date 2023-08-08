@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms, get_user_model
 
+from MommysCookbookProject.user_auth.models import CookbookUser
+
 
 class CookbookUserRegisterForm(auth_forms.UserCreationForm):
     class Meta(auth_forms.UserCreationForm.Meta):
@@ -9,26 +11,15 @@ class CookbookUserRegisterForm(auth_forms.UserCreationForm):
 
 
 class CookbookLoginForm(auth_forms.AuthenticationForm):
-    # username = auth_forms.UsernameField(
-    #     widget=forms.TextInput(attrs={
-    #         "autofocus": True,
-    #         "placeholder": "Username"
-    #     })
-    # )
-    #
-    # password = forms.CharField(
-    #     strip=False,
-    #     widget=forms.PasswordInput(attrs={
-    #         "autocomplete": "current-password",
-    #         "placeholder": "Password"
-    #     })
-    # )
         class Meta(auth_forms.UserCreationForm.Meta):
             model = get_user_model()
             fields = ("username", "email")
 
 
-# class CookbookUserUpdateForm(auth_forms.UserChangeForm):
-#     class Meta(auth_forms.UserCreationForm.Meta):
-#         model = get_user_model()
-#         fields = ("username", "email, screen_name")
+class ProfilePictureUpdate(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ("profile_picture",)
+        widgets = {
+            "profile_picture": forms.FileInput()
+        }

@@ -34,4 +34,6 @@ class CookbookUser(auth_models.AbstractUser):
     )
 
     def __str__(self):
+        if self.screen_name:
+            return self.screen_name
         return self.username

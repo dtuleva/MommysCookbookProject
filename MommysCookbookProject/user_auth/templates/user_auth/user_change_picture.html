@@ -1,0 +1,22 @@
+{% extends "overlay_small.html" %}
+{% block main-content %}
+    <h3>Change profile picture</h3>
+    <div class="card" style="width: 18rem;">
+    <img class="card-img-top"
+         src="{{ user.profile_picture.url }}"
+         alt="Profile image">
+
+    <div class="card-body">
+        <form action="{% url 'user_change_picture' %}" method="post" enctype="multipart/form-data" class="mb-2">
+            {% csrf_token %}
+            {{ form.profile_picture }}
+            {{ form.profile_picture.errors }}
+            <button class="btn btn-dark">Save</button>
+        </form>
+        <a href="{% url 'user_details' %}" class="btn btn-outline-secondary btn-block">
+            Discard changes and go back to Profile
+        </a>
+    </div>
+    </div>
+
+{% endblock %}

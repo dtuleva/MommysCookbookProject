@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views, View
 
-from MommysCookbookProject.recipe.forms import RecipeCreateForm
+from MommysCookbookProject.recipe.forms import RecipeCreateUpdateForm
 from MommysCookbookProject.recipe.models import Recipe, Rating
 
 
@@ -23,7 +23,7 @@ class RecipeDetailsView(views.DetailView):
 class RecipeCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     model = Recipe
     template_name = "recipe/recipe_create.html"
-    form_class = RecipeCreateForm
+    form_class = RecipeCreateUpdateForm
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -32,17 +32,27 @@ class RecipeCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     def get_success_url(self):
         return reverse_lazy("recipe_details", kwargs={'slug': self.object.slug})
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['files'] = self.request.FILES
+        return kwargs
 
-class RecipeEditView(views.UpdateView): # todo: add owns_rec or is admin permission
+
+class RecipeEditView(auth_mixins.LoginRequiredMixin, views.UpdateView): # todo: add owns_rec or is admin permission
     model = Recipe
     template_name = "recipe/recipe_edit.html"
-    form_class = RecipeCreateForm
+    form_class = RecipeCreateUpdateForm
 
     def get_success_url(self):
         return reverse_lazy("recipe_details", kwargs={'slug': self.object.slug})
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['files'] = self.request.FILES
+        return kwargs
 
-class RecipeDeleteView(views.DeleteView): # todo: add owns_rec or is admin permission
+
+class RecipeDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView): # todo: add owns_rec or is admin permission
     model = Recipe
     template_name = "recipe/recipes_delete.html"
     success_url = reverse_lazy("index")

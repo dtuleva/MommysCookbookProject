@@ -3,10 +3,10 @@ from django import forms
 from MommysCookbookProject.recipe.models import Recipe
 
 
-class RecipeCreateForm(forms.ModelForm):
+class RecipeCreateUpdateForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        # hidden input owner in template
+
         exclude = ['slug', 'owner', 'created_at']
         widgets = {
             'title': forms.TextInput(attrs={

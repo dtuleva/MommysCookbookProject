@@ -4,7 +4,7 @@
 
     <h3> Create Recipe</h3>
     <div class="container">
-        <form action="{% url 'recipe_create' %}" method="post">
+        <form action="{% url 'recipe_create' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
 

@@ -1,31 +1,57 @@
 {% extends "overlay_full_width.html" %}
 {% load static %}
+{% load custom_filters_recipe %}
 
 {% block main-content %}
 
     <div class="container-fluid mt-5">
         <div class="card">
             <div class="row no-gutters">
-                <div class="col-md-8">
+                {% if recipe.image.url != '/media/recipe_images/recipe_img_default.jpg' %}
+                <div class="col-md-6">
                     <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
                 </div>
-                <div class="col-md-4 px-3 py-5">
+                    <div class="col-md-4 px-3 py-5">
+                {% else %}
+                <div class="col-md-3">
+                    <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
+                </div>
+                    <div class="col-md-9 px-3 py-5">
+                {% endif %}
+
+
                     <div class="card-body">
 
-                        Average Rating: {{ recipe.get_average_rating }}
+
+                        {#                        <div class="mb-3">#}
+                        {#                            {% for star in recipe.get_average_rating %}#}
+                        {#                                <i class="fa-solid fa-star"></i>#}
+                        {#                            {% endfor %}#}
+                        {#                            <i class="fa-solid fa-star"></i>#}
+                        {#                            <i class="fa-solid fa-star"></i>#}
+                        {#                            <i class="fa-regular fa-star-half-stroke"></i>#}
+                        {#                            <i class="fa-regular fa-star"></i>#}
+                        {#                        </div>#}
                         <div class="mb-3">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                            <i class="fa-regular fa-star"></i>
+
+                            {% with recipe.get_average_rating as rating %}
+                                Average Rating: {{ rating }}
+                                <div class="rating-stars">
+                                    {% for star_class in rating|rating_stars %}
+                                        <i class="{{ star_class }}"></i>
+                                    {% endfor %}
+                                </div>
+                            {% endwith %}
                         </div>
 
-                        {% if user.is_authenticated %}
-                            <div class="">Rate this recipe:</div>
-                            <form method="post" action="{% url 'rate_recipe' slug=recipe.slug %}" class="mb-3">
-                                {% csrf_token %}
 
+
+                        {% if user.is_authenticated %}
+
+                            <form method="post" action="{% url 'rate_recipe' slug=recipe.slug %}"
+                                  class="mt-2 mb-3">
+                                {% csrf_token %}
+                                <label class="form-check-label d-block" for="stars">Rate this recipe:</label>
                                 <select name="stars" id="stars">
                                     <option value="5">5 stars</option>
                                     <option value="4">4 stars</option>
@@ -41,43 +67,45 @@
 
 
 
-                        <h2 class="card-title">{{ recipe.title }}</h2>
+                        <h1 class="card-title">{{ recipe.title }}</h1>
                         {% if recipe.prep_time or recipe.cook_time or recipe.servings %}
-                            <div class="container fs-4">
+                            <div class="container fs-5 mt-4">
+                                <div class="row">
 
-                                {% if recipe.prep_time %}
-                                    <div>
-                                        <small class="fs-6 fst-italic">Prep Time</small>
-                                        <div class="fw-bold">
-                                            <i class="fa-regular fa-clock"></i>
-                                            {{ recipe.prep_time }}
-                                            <span class="fs-6 fst-italic">min</span>
+                                    {% if recipe.prep_time %}
+                                        <div class="col-md-4 text-center">
+                                            <div class="fs-6 fst-italic">Prep Time</div>
+                                            <div class="fw-bold">
+                                                <i class="fa-regular fa-clock"></i>
+                                                {{ recipe.prep_time }}
+                                                <span class="fs-6 fst-italic">min</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
 
-                                {% if recipe.cook_time %}
-                                    <div>
-                                        <small class="fs-6 fst-italic">Cook Time</small>
-                                        <div class="fw-bold">
-                                            <i class="fa-solid fa-clock"></i>
-                                            {{ recipe.cook_time }}
-                                            <span class="fs-6 fst-italic">min</span>
+                                    {% if recipe.cook_time %}
+                                        <div class="col-md-4 text-center">
+                                            <div class="fs-6 fst-italic">Cook Time</div>
+                                            <div class="fw-bold">
+                                                <i class="fa-solid fa-clock"></i>
+                                                {{ recipe.cook_time }}
+                                                <span class="fs-6 fst-italic">min</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
 
-                                {% if recipe.servings %}
-                                    <div>
-                                        <small class="fs-6 fst-italic">Servings</small>
-                                        <div class="fw-bold">
-                                            <i class="fa-solid fa-utensils"></i>
-                                            {{ recipe.servings }}
+                                    {% if recipe.servings %}
+                                        <div class="col-md-4 text-center">
+                                            <div class="fs-6 fst-italic">Servings</div>
+                                            <div class="fw-bold">
+                                                <i class="fa-solid fa-utensils"></i>
+                                                {{ recipe.servings }}
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endif %}
 
+                                    {% endif %}
 
+                                </div>
                             </div>
                         {% endif %}
                         <hr>
@@ -88,7 +116,7 @@
             </div>
             <div class="row no-gutters px-3 py-5">
                 <h5 class="card-text">{{ recipe.description }}</h5>
-                <h4 class="card-title">DIRECTIONS</h4>
+                <h4 class="card-title mt-4">DIRECTIONS</h4>
                 <p class="card-text">{{ recipe.instructions|linebreaks }}</p>
             </div>
             <div class="card-body">
