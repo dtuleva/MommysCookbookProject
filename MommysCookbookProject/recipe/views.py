@@ -1,5 +1,4 @@
 from django.contrib.auth import mixins as auth_mixins
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.shortcuts import get_object_or_404, redirect
@@ -75,7 +74,7 @@ class RecipeCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
         return kwargs
 
 
-class RecipeEditView(auth_mixins.LoginRequiredMixin, views.UpdateView): # todo: add owns_rec or is admin permission
+class RecipeEditView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = Recipe
     template_name = "recipe/recipe_edit.html"
     form_class = RecipeCreateUpdateForm
@@ -88,8 +87,13 @@ class RecipeEditView(auth_mixins.LoginRequiredMixin, views.UpdateView): # todo: 
         kwargs['files'] = self.request.FILES
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = RecipeCreateUpdateForm(instance=self.object)
+        return context
 
-class RecipeDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView): # todo: add owns_rec or is admin permission
+
+class RecipeDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Recipe
     template_name = "recipe/recipes_delete.html"
     success_url = reverse_lazy("index")

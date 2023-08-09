@@ -15,10 +15,15 @@
     </small></h6>
     <h5> {{ note.note_text }}</h5>
 
-    <form action="{% url 'note_delete' note.pk %}" method="post">
+    <form action="{% url 'note_delete' note.pk %}" method="post" class="my-3">
         <button class="btn btn-danger text-dark">Delete recipe</button>
         {% csrf_token %}
     </form>
+    <p>
+        <a href="{% url 'recipe_details' slug=note.to_recipe.slug %}" class="btn btn-outline-secondary btn-block">
+            Discard changes and go back to recipe
+        </a>
+    </p>
 
 
 {% endblock %}
