@@ -43,19 +43,23 @@
 
 <header class="navbar navbar-expand-lg navbar-dark bg-brown py-0">
     <div class="container">
-        <!-- Logo and Site Name -->
+
         <a class="navbar-brand" href="{% url 'index' %}">
             <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook logo" height="40"
                  class="d-inline-block align-center">
             <h4 class="d-inline">Mommy's Cookbook</h4>
-            <h6 class="d-inline"> - All your recipes in one place</h6>
+            <span class="d-none d-md-inline-block ml-2"> - All your recipes in one place</span>
         </a>
 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 
 
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'index' %}"> Home </a>
                 </li>
@@ -86,9 +90,9 @@
 
                 {% endif %}
 
-                <li>
-                    <a class="nav-link" href="{% url 'user_list' %}"> User_list </a>
-                </li>
+{#                <li>#}
+{#                    <a class="nav-link" href="{% url 'user_list' %}"> User_list </a>#}
+{#                </li>#}
                 <li>
                     <a class="btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER|escape }}"> Go back </a>
                 </li>
@@ -101,12 +105,9 @@
 <main class="text-center p-5" id="background" role="main">
 
 
+    {% block overlay %}
 
-
-
-        {% block overlay %}
-
-        {% endblock %}
+    {% endblock %}
 
 
 
@@ -128,7 +129,9 @@
 {#<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>#}
 {#<script src="../../assets/js/vendor/popper.min.js"></script>#}
 {#<script src="../../dist/js/bootstrap.min.js"></script>#}
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

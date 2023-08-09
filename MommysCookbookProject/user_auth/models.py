@@ -4,6 +4,8 @@ from django.core.validators import FileExtensionValidator
 
 from validators.validators import validate_image_max_size_1_mb
 
+from django.contrib.auth.models import Permission
+
 
 class CookbookUser(auth_models.AbstractUser):
     NAME_MIN_LENGTH = 2
@@ -37,3 +39,5 @@ class CookbookUser(auth_models.AbstractUser):
         if self.screen_name:
             return self.screen_name
         return self.username
+
+

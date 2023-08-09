@@ -96,4 +96,4 @@ class UserPictureChangeView(CurrentUserMixin, views.UpdateView):
     template_name = "user_auth/user_change_picture.html"
     form_class = ProfilePictureUpdate
     model = get_user_model()
-
+    success_url = reverse_lazy('user_details')

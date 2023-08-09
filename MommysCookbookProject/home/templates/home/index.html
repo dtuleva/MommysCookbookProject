@@ -1,7 +1,80 @@
 {% extends "overlay_full_width.html" %}
+{% load static %}
 
 {% block main-content %}
-    <h1 class="">Mommy's Cookbook</h1>
-    <h3>Homepage</h3>
-    <p>Welcome to our website</p>
+    {#    <h1 class="">Mommy's Cookbook</h1>#}
+    {#    <h3>Homepage</h3>#}
+    {#    <p>Welcome to our website</p>#}
+
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+        <div class="col-md-7 p-lg-5 mx-auto my-5">
+            <div class="d-flex align-items-center justify-content-center mb-4">
+                <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook Logo" class="mr-2" width="200">
+                <h1 class="display-4 font-weight-normal">Mommy's Cookbook</h1>
+            </div>
+
+            <p class="lead font-weight-normal">The final project for <br>
+                <a href="https://softuni.bg/trainings/4110/python-web-framework-june-2023">
+                    Python Web Framework Course
+                </a><br>
+                Web application implemented using Django Framework
+            </p>
+        </div>
+    </div>
+
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+        <div class="col-md-9 p-lg-5 mx-auto my-5">
+            <h3 class="font-weight-normal">Welcome to Mommy's Cookbook</h3>
+            <p class="lead font-weight-normal"> — an online culinary haven where tradition
+                and innovation collide in the most delightful way. Picture yourself sifting through the cherished pages
+                of Mom's cookbook, each recipe a testament to love and heritage. But wait, there's more! Sign up to
+                unlock a world of possibilities. Mark your favorites with a heart, jot down personal notes to capture
+                your culinary experiments, rate each creation to guide fellow foodies, and even contribute your own
+                recipes to enrich this virtual family heirloom. Join us on this delectable journey where the past meets
+                the present, and the kitchen becomes a canvas for shared experiences and mouthwatering masterpieces.
+            </p>
+            <a class="btn btn-outline-secondary" href="{% url 'recipes_list' %}">All your recipes in one place</a>
+        </div>
+    </div>
+
+    <footer class="container py-5">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook logo" height="100"
+                     class="d-inline-block align-center">
+
+                <small class="d-block mb-3 text-muted"> August, 2023 </small>
+            </div>
+
+            <div class="col-6 col-md">
+                <h5>Recipes with notes</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">
+                        <img src="{% static 'images/recipes.jpg' %}" alt="Recipes" height="300" class="">
+                    </a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Sign in</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="{% url 'user_login' %}">
+                        <img src="{% static 'images/profile_img_default.jpg' %}" alt="Recipes" height="300" class="">
+                    </a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md">
+                <h5>About</h5>
+                <ul class="list-unstyled text-small">
+                    <li><span class="text-muted" href="">D. Tuleva</span></li>
+                    <li><a class="text-muted" href="https://github.com/dtuleva/MommysCookbookProject">
+                        Github project repo
+                    </a></li>
+
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+
 {% endblock %}
