@@ -1,0 +1,38 @@
+{% extends "overlay_full_width.html" %}
+{% load custom_filters %}
+
+{% block main-content %}
+
+
+    <h1>Edit note</h1>
+
+
+
+    <form method="post" action="{% url 'note_edit' note.pk %}" class="mb-3">
+        {% csrf_token %}
+
+        {{ note_form.note_text|add_custom_class:"form-control" }}
+        <div class="invalid-feedback">
+            {{ note_form.note_text.errors }}
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-check-inline">
+                    {{ note_form.is_private|add_custom_class:"form-check-inline" }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-secondary btn-sm m-2">Save changes</button>
+            </div>
+        </div>
+    </form>
+    <p class="mt-3">
+        <a href="{% url 'note_delete' note.pk %}" class="btn btn-danger text-dark"> DELETE </a>
+    </p>
+    <p>
+        <a href="{% url 'recipe_details' slug=note.to_recipe.slug %}" class="btn btn-outline-secondary btn-block">
+            Discard changes and go back to recipe
+        </a>
+    </p>
+
+{% endblock %}

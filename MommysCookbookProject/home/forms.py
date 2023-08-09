@@ -6,10 +6,17 @@ from MommysCookbookProject.home.models import Note
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ('note_text',)
+        fields = ("note_text", "is_private")
         widgets = {
-            'note_text': forms.Textarea(
+            "is_private": forms.RadioSelect(
+                choices=[
+                    (True, "Add private note"),
+                    (False, "Post note on Mommy's Cookbook"),
+                ]
+            ),
+            "note_text": forms.Textarea(
                 attrs={
-                    'placeholder': 'Add comment...',
+                    "placeholder": 'Add note to this recipe...',
+                    "rows": 3
                 })
         }

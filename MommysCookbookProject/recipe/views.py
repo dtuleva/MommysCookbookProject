@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 
 from django.views import generic as views, View
 
+from MommysCookbookProject.home.forms import NoteForm
 from MommysCookbookProject.recipe.forms import RecipeCreateUpdateForm
 from MommysCookbookProject.recipe.models import Recipe, Rating
 from MommysCookbookProject.user_auth.views import CurrentUserMixin
@@ -42,7 +43,16 @@ class RecipeDetailsView(views.DetailView):
         owner = self.request.user
 
         is_in_favorites = recipe.favorite_set.filter(owner=owner).exists()
-        context['is_in_favorites'] = is_in_favorites
+        context["is_in_favorites"] = is_in_favorites
+
+        notes_public = recipe.note_set.filter(is_private=False)
+        context["notes_public"] = notes_public
+
+        notes_private = recipe.note_set.filter(owner=owner).filter(is_private=True)
+        context["notes_private"] = notes_private
+
+        note_form = NoteForm
+        context["note_form"] = note_form
 
         return context
 

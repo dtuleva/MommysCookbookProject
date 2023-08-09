@@ -4,9 +4,9 @@
 {% block main-content %}
 
 
-        <h1>Edit Recipe</h1>
-        <form action="{% url 'recipe_edit' recipe.slug %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+    <h1>Edit Recipe</h1>
+    <form action="{% url 'recipe_edit' recipe.slug %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
 
         <div class="form-outline mb-4">
@@ -66,10 +66,15 @@
             {{ form.image.errors }}
         </div>
 
-    <button class="btn btn-dark">Save changes</button>
+        <button class="btn btn-dark">Save changes</button>
     </form>
     <p class="mt-3">
         <a href="{% url 'recipe_delete' recipe.slug %}" class="btn btn-danger text-dark"> DELETE </a>
+    </p>
+    <p>
+        <a href="{% url 'recipe_details' slug=recipe.slug %}" class="btn btn-outline-secondary btn-block">
+            Discard changes and go back to recipe
+        </a>
     </p>
 
 

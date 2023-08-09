@@ -97,9 +97,6 @@ class Recipe(models.Model):
         return super().save(*args, **kwargs)
 
 
-
-
-
 class Rating(models.Model):
     user = models.ForeignKey(
         to=get_user_model(),

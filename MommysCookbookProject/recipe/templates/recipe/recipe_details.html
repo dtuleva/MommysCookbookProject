@@ -1,4 +1,5 @@
 {% extends "overlay_full_width.html" %}
+{% load custom_filters %}
 {% load static %}
 {% load custom_filters_recipe %}
 
@@ -117,14 +118,78 @@
                 </div>
                 </div>
                 </div>
+
                 <div class="row no-gutters px-3 py-5">
                     <h5 class="card-text">{{ recipe.description }}</h5>
                     <h4 class="card-title mt-4">DIRECTIONS</h4>
                     <p class="card-text">{{ recipe.instructions|linebreaks }}</p>
                 </div>
-                <div class="card-body">
-                    <input type="text" placeholder="todo">
-                </div>
+
+                <h4 class="card-title" id="notes">NOTES</h4>
+                {% if user.is_authenticated %}
+                    <ul class="list-group list-group-flush">
+                        {% for note in notes_private %}
+                            <li class="list-group-item p-3 bg-light">
+
+                                <div class="row">
+                                    <div class="col-md-9 text-start">{{ note.note_text }}</div>
+                                    <div class="col-md-3">
+                                        <p class="m-0"><small class="text-muted">Private note</small></p>
+                                        <a href="{% url 'note_edit' note_pk=note.pk %}"
+                                           class="btn btn-sm btn-secondary">Edit</a>
+                                        <a href="{% url 'note_delete' note_pk=note.pk %}"
+                                           class="btn btn-sm btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </li>
+
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <ul class="list-group list-group-flush">
+                    {% for note in notes_public %}
+                        <li class="list-group-item p-3">
+
+                            <div class="row">
+                                <div class="col-md-9 text-start">{{ note.note_text }}</div>
+                                <div class="col-md-3">
+                                    {% if user == note.owner %}
+                                        <p class="m-0"><small class="text-muted">Public note</small></p>
+                                        <button class="btn btn-sm btn-secondary">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    {% else %}
+                                        <p class="m-0"><small class="text-muted">{{ note.owner }}</small></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+
+                    {% endfor %}
+                </ul>
+
+                {% if user.is_authenticated %}
+                    <div class="card-body">
+                        <form method="post" action="{% url 'note_create' slug=recipe.slug %}" class="mb-3">
+                            {% csrf_token %}
+
+                            {{ note_form.note_text|add_custom_class:"form-control" }}
+                            <div class="invalid-feedback">
+                                {{ note_form.note_text.errors }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check-inline">
+                                        {{ note_form.is_private|add_custom_class:"form-check-inline" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-secondary btn-sm m-2">Save note</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                {% endif %}
                 <div class="card-footer">
                     <p class="fs-6 fst-italic pt-4">Recipe by: {{ recipe.owner }}</p>
                     <p>

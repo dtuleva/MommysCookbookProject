@@ -1,0 +1,24 @@
+{% extends "overlay_small.html" %}
+
+{% block main-content %}
+
+    <h3>Delete Note</h3>
+    <p>Hey, {{ user }} do you really want to delete this note?</p>
+    <p><i class="fa-solid fa-trash-can" style="font-size: 5rem"></i></p>
+
+    <h6><small class="text-muted">
+        {% if note.is_private %}
+            Private note
+        {% else %}
+            Public note
+        {% endif %}
+    </small></h6>
+    <h5> {{ note.note_text }}</h5>
+
+    <form action="{% url 'note_delete' note.pk %}" method="post">
+        <button class="btn btn-danger text-dark">Delete recipe</button>
+        {% csrf_token %}
+    </form>
+
+
+{% endblock %}
