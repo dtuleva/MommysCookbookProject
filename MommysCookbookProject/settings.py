@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     "MommysCookbookProject.home",
     "MommysCookbookProject.recipe",
     "MommysCookbookProject.user_auth",
+    "MommysCookbookProject.conversion",
+
 
 
 ]

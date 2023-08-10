@@ -1,6 +1,4 @@
 from django.contrib.auth import views as auth_views, login, get_user_model
-from django.contrib.auth import forms as auth_forms
-from django.contrib.auth import models as auth_models
 from django.contrib.auth import mixins as auth_mixins
 
 from django.urls import reverse_lazy
@@ -10,26 +8,15 @@ from MommysCookbookProject.user_auth.forms import CookbookUserRegisterForm, Cook
 
 
 class UserRegisterView(views.CreateView):
-    # todo: maybe combine register and login view/ keep next value when registarting
+
     template_name = "user_auth/user_register.html"
     form_class = CookbookUserRegisterForm
     success_url = reverse_lazy("index")
 
     def form_valid(self, form):
         result = super().form_valid(form)
-
         login(self.request, self.object)
-        print("logged user")  # todo: remove print
-        print(self.object)
-        print(self.request)
-
         return result
-
-    # def get_form_class(self):
-    #     if "condition":
-    #         return UserRegisterForm888 # return class not instance!!! no brakets
-    #     else:
-    #         return DefaultUserRegisterForm
 
 
 class UserLoginView(auth_views.LoginView):  # todo: username or pass invalid message, redirect already logged

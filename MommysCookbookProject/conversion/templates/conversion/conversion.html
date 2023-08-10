@@ -1,0 +1,63 @@
+{% extends 'overlay_small.html' %}
+{% load custom_filters %}
+
+{% block main-content %}
+
+    <h2> Unit converter</h2>
+    <h4 class="lead">Unlock the Secret Language of Cooking Measurements</h4>
+    <p class="text-muted">
+        Cups, grams, and ounces playing mind games with your recipes? Don't fret! Our Conversion Wizard is here to help.
+    </p>
+
+    {% if converted_quantity is not None %}
+
+        <form action="{% url 'copy_convertion_result' %}" method="post"
+              class="mt-3 p-2 fst-italic fst-bold rounded bg-light border border-dark">
+        {% csrf_token %}
+            <h4>{{ converted_quantity_to_string }}</h4>
+            <input type="hidden" name="converted_quantity_to_string" value="{{ converted_quantity_to_string }}">
+
+        <button class="btn btn-sm mx-2 text-muted">
+            <i class="fa-regular fa-copy"></i>
+            Copy result
+        </button>
+        </form>
+    {% endif %}
+
+
+
+
+
+<form method="post" class="mt-3">
+    {% csrf_token %}
+    <div class="form-group mb-2">
+        <label>{{ form.quantity.label }}</label>
+        <div class="text-danger">{{ form.quantity.errors }}</div>
+        {{ form.quantity|placeholder:"0"|add_custom_class:"form-control" }}
+    </div>
+
+    <div class="form-group mb-2">
+        <label>{{ form.source_unit.label }}</label>
+        <div class="text-danger">{{ form.source_unit.errors }}</div>
+        {{ form.source_unit|add_custom_class:"form-select" }}
+    </div>
+
+    <div class="form-group mb-2">
+        <label>{{ form.ingredient.label }}</label>
+        <div class="text-danger">{{ form.ingredient.errors }}</div>
+        {{ form.ingredient|add_custom_class:"form-select" }}
+    </div>
+
+    <div class="form-group mb-2">
+        <label>{{ form.target_unit.label }}</label>
+        <div class="text-danger">{{ form.target_unit.errors }}</div>
+        {{ form.target_unit|add_custom_class:"form-select" }}
+    </div>
+    <button type="submit" class="btn btn-dark" value="convert">Convert</button>
+    <div class="text-danger">
+        {{ form.non_field_errors }}
+    </div>
+</form>
+
+
+{% endblock %}

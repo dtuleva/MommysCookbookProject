@@ -1,0 +1,19 @@
+{% extends "overlay_small.html" %}
+
+{% block main-content %}
+    <h3>{{ converted_quantity_to_string }}</h3>
+    <h6 class="text-muted">copied to clipboard</h6>
+    <p><i class="fa-regular fa-copy" style="font-size: 5rem"></i></p>
+    <p>
+        <a href="{% url 'convert' %}" class="btn btn-outline-secondary btn-block">
+            Go back to unit conversion
+        </a>
+    </p>
+        <p>
+        <a href="{% url 'recipes_list' %}" class="btn btn-outline-secondary btn-block">
+            Go to recipes
+        </a>
+    </p>
+
+
+{% endblock %}

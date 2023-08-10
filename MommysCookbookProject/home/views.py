@@ -71,3 +71,6 @@ def note_delete(request, note_pk):
         return redirect(reverse("recipe_details", kwargs={"slug": note.to_recipe.slug}) + '#notes')
 
     return render(request, template_name="home/note_delete.html", context={'note': note})
+
+
+

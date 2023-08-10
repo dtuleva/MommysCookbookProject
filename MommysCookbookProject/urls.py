@@ -10,6 +10,8 @@ urlpatterns = [
     path("", include("MommysCookbookProject.home.urls")),
     path("recipes/", include("MommysCookbookProject.recipe.urls")),
     path("", include("MommysCookbookProject.user_auth.urls")),
+    path("conversion/", include("MommysCookbookProject.conversion.urls")),
+
 
 ]
 
