@@ -1,0 +1,35 @@
+{% extends 'overlay_full_width.html' %}
+
+{% block main-content %}
+    <h2>Edit Image for {{ recipe.title }}</h2>
+    <div class="container-fluid mt-5">
+        <div class="card">
+            <div class="row no-gutters">
+
+                <div class="col-md-8">
+                    <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
+                </div>
+
+                <div class="col-md-4 px-3 py-5">
+                    <div class="card-body">
+
+
+{#                        <div class="row no-gutters px-3 py-5">#}
+{#                            <h5 class="card-text">{{ recipe.description }}</h5>#}
+{#                            <h4 class="card-title mt-4">DIRECTIONS</h4>#}
+{#                            <p class="card-text">{{ recipe.instructions|linebreaks }}</p>#}
+{#                        </div>#}
+
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ image_size }}
+                            <button type="submit">Process Image</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

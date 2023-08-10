@@ -3,14 +3,10 @@ from pathlib import Path
 
 from django.urls import reverse_lazy
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-@x5om%n=@%alzx8mhm5zzawy75y-(m5a9@c8&=wb+8gj7uib@("
-
 
 DEBUG = True
 
@@ -19,7 +15,6 @@ ALLOWED_HOSTS = []
 # DEBUG = False
 #
 # ALLOWED_HOSTS = ["*"]
-
 
 
 INSTALLED_APPS = [
@@ -37,8 +32,7 @@ INSTALLED_APPS = [
     "MommysCookbookProject.recipe",
     "MommysCookbookProject.user_auth",
     "MommysCookbookProject.conversion",
-
-
+    "MommysCookbookProject.image_processing",
 
 ]
 
@@ -73,19 +67,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "MommysCookbookProject.wsgi.application"
 
-
-
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'mommys_cookbook_db',
-    'USER': 'postgres-dd',
-    'PASSWORD': '1234',
-    'HOST': '127.0.0.1',
-    'PORT': '5432'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mommys_cookbook_db',
+        'USER': 'postgres-dd',
+        'PASSWORD': '1234',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -102,8 +93,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -112,24 +101,16 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
-
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 LOGIN_URL = reverse_lazy("user_login")
 LOGIN_REDIRECT_URL = reverse_lazy("index")
 LOGOUT_REDIRECT_URL = reverse_lazy("user_login")
 
-
 AUTH_USER_MODEL = 'user_auth.CookbookUser'
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
