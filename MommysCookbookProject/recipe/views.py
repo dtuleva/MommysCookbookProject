@@ -41,17 +41,14 @@ class RecipeDetailsView(views.DetailView):
         recipe = self.object
         owner = self.request.user
 
-        is_in_favorites = recipe.favorite_set.filter(owner=owner).exists()
-        context["is_in_favorites"] = is_in_favorites
+        context["is_in_favorites"] = False
+        context["notes_public"] = recipe.note_set.filter(is_private=False)
+        context["notes_private"] = None
+        context["note_form"] = NoteForm
 
-        notes_public = recipe.note_set.filter(is_private=False)
-        context["notes_public"] = notes_public
-
-        notes_private = recipe.note_set.filter(owner=owner).filter(is_private=True)
-        context["notes_private"] = notes_private
-
-        note_form = NoteForm
-        context["note_form"] = note_form
+        if not self.request.user.is_anonymous:
+            context["is_in_favorites"] = recipe.favorite_set.filter(owner=owner).exists()
+            context["notes_private"] = recipe.note_set.filter(owner=owner).filter(is_private=True)
 
         return context
 
@@ -64,7 +61,7 @@ class RecipeCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
-    
+
     def get_success_url(self):
         return reverse_lazy("recipe_details", kwargs={'slug': self.object.slug})
 
@@ -110,5 +107,3 @@ class RateRecipeView(LoginRequiredMixin, View):
                 defaults={'stars': stars}
             )
         return redirect('recipe_details', slug=recipe.slug)
-
-
