@@ -1,3 +1,8 @@
+from datetime import timedelta
+
+from django.db.models import Avg
+from django.utils import timezone
+
 from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -7,6 +12,7 @@ from django.urls import reverse_lazy
 from django.views import generic as views, View
 
 from MommysCookbookProject.home.forms import NoteForm
+from MommysCookbookProject.home.models import Favorite
 from MommysCookbookProject.recipe.forms import RecipeCreateUpdateForm
 from MommysCookbookProject.recipe.models import Recipe, Rating
 from MommysCookbookProject.user_auth.views import CurrentUserMixin
@@ -22,14 +28,37 @@ class RecipesListView(views.ListView):
         queryset = super().get_queryset()
 
         search = self.request.GET.get('search', '')
-        queryset = queryset.filter(title__icontains=search)
-        return queryset
+        chapter = self.request.GET.get('chapter', None)
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['search'] = self.request.GET.get('search', '')
-        # context['categories'] = Category.objects.all()
-        return context
+        not_logged_error_message = None
+
+        if chapter == 'recent':
+            viewed_recipes_list = self.request.session.get("viewed_recipes_list", [])
+            queryset = queryset.filter(pk__in=viewed_recipes_list)
+        if chapter == 'best':
+            queryset = queryset.annotate(avg_rating=Avg('rating__stars'))\
+                .filter(avg_rating__gt=4.5).order_by('-avg_rating')
+
+        if not self.request.user.is_authenticated and chapter in ('favorites', 'own'):
+            not_logged_error_message = "Only logged-in users can access Favorites and My Recipes. " \
+                                       "Here are our newest recipes instead:"
+            print(not_logged_error_message)
+        else:
+            if chapter == 'favorites':
+                favorite_recipes = Favorite.objects.filter(owner=self.request.user).values_list('to_recipe', flat=True)
+                queryset = queryset.filter(pk__in=favorite_recipes)
+
+            if chapter == 'own':
+                queryset = queryset.filter(owner=self.request.user)
+
+        if chapter == 'new' or not_logged_error_message is not None:
+            two_days_ago = timezone.now() - timedelta(days=2)
+            queryset = queryset.filter(created_at__gte=two_days_ago)
+
+        queryset = queryset.filter(title__icontains=search)
+        self.request.not_logged_error_message = not_logged_error_message
+
+        return queryset
 
 
 class RecipeDetailsView(views.DetailView):
@@ -49,6 +78,13 @@ class RecipeDetailsView(views.DetailView):
         if not self.request.user.is_anonymous:
             context["is_in_favorites"] = recipe.favorite_set.filter(owner=owner).exists()
             context["notes_private"] = recipe.note_set.filter(owner=owner).filter(is_private=True)
+
+        viewed_recipes_list = self.request.session.get("viewed_recipes_list", [])
+        if recipe.pk in viewed_recipes_list:
+            viewed_recipes_list.remove(recipe.pk)
+        viewed_recipes_list.append(recipe.pk)
+
+        self.request.session["viewed_recipes_list"] = viewed_recipes_list[-10:]
 
         return context
 

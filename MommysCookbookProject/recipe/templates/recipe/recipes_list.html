@@ -9,11 +9,21 @@
             </div>
             <div class="col-md-5">
 
+                <p>
+                    <a href="{% url 'recipes_list' %}" class="btn btn-secondary btn-outline-dark text-light m-2">All Recipes</a>
+                    <a href="{% url 'recipes_list' %}?chapter=recent" class="btn btn-light btn-outline-secondary  m-2">Recently Viewed</a>
+                    <a href="{% url 'recipes_list' %}?chapter=best" class="btn btn-light btn-outline-secondary m-2">5-star Rating</a>
+                    <a href="{% url 'recipes_list' %}?chapter=favorites" class="btn btn-light btn-outline-secondary m-2">Favorites</a>
+                    <a href="{% url 'recipes_list' %}?chapter=own" class="btn btn-light btn-outline-secondary m-2">My Recipes</a>
+                    <a href="{% url 'recipes_list' %}?chapter=new" class="btn btn-light btn-outline-secondary m-2">New</a>
+                </p>
+
                 <form action="{% url 'recipes_list' %}?page={{ page_obj.number }}" class="m-3">
                     {% csrf_token %}
 
 
                     <input name="search" value="{{ search }}" class="form-control m-3">
+                    <input type="hidden" name="chapter" value="{{ request.GET.chapter }}">
 
 
                     <button class="btn btn-dark">Search by title</button>
@@ -25,9 +35,15 @@
                 </form>
             </div>
         </div>
+
+        {% if request.not_logged_error_message %}
+            <div class="container-fluid">
+                <p class="lead text-danger">{{ request.not_logged_error_message }}</p>
+            </div>
+        {% endif %}
         <div class="card-group">
             {% for recipe in recipes %}
-                {#            {% if forloop.counter <= 5 %}#}
+
                 <a href="{% url 'recipe_details' recipe.slug %}" class="text-decoration-none m-2">
                     <div class="card" style="width: 16rem;">
                         <img class="card-img-top" src="{{ recipe.image.url }}" alt="Recipe image">
@@ -43,7 +59,10 @@
                         </div>
                     </div>
                 </a>
-                {#            {% endif %}#}
+            {% empty %}
+                <div class="card mb-5" style="width: 30rem;">
+                    <h3 class="card-title">No recipes found.</h3>
+                </div>
             {% endfor %}
         </div>
 
