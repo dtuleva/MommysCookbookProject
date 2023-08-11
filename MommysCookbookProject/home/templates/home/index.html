@@ -39,18 +39,19 @@
 
     <footer class="container py-5">
         <div class="row">
-            <div class="col-12 col-md">
-                <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook logo" height="100"
-                     class="d-inline-block align-center">
-
-                <small class="d-block mb-3 text-muted"> August, 2023 </small>
-            </div>
-
             <div class="col-6 col-md">
                 <h5>Recipes with notes</h5>
                 <ul class="list-unstyled text-small">
                     <li><a class="text-muted" href="{% url 'recipes_list' %}">
                         <img src="{% static 'images/recipes.jpg' %}" alt="Recipes" height="300" class="">
+                    </a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Kitchen Calculator</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="{% url 'convert' %}">
+                        <img src="{% static 'images/measuring_cup.jpg' %}" alt="Measuring cup" height="300" class="">
                     </a></li>
                 </ul>
             </div>
@@ -70,8 +71,11 @@
                     <li><a class="text-muted" href="https://github.com/dtuleva/MommysCookbookProject">
                         Github project repo
                     </a></li>
-
                 </ul>
+                <img src="{% static 'images/cookbook_logo.jpg' %}" alt="Mommy's Cookbook logo" height="100"
+                     class="d-inline-block align-center">
+
+                <small class="d-block mb-3 text-muted"> August, 2023 </small>
             </div>
         </div>
     </footer>
