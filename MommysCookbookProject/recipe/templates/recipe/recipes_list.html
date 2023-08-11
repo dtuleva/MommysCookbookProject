@@ -10,28 +10,63 @@
             <div class="col-md-5">
 
                 <p>
-                    <a href="{% url 'recipes_list' %}" class="btn btn-secondary btn-outline-dark text-light m-2">All Recipes</a>
-                    <a href="{% url 'recipes_list' %}?chapter=recent" class="btn btn-light btn-outline-secondary  m-2">Recently Viewed</a>
-                    <a href="{% url 'recipes_list' %}?chapter=best" class="btn btn-light btn-outline-secondary m-2">5-star Rating</a>
-                    <a href="{% url 'recipes_list' %}?chapter=favorites" class="btn btn-light btn-outline-secondary m-2">Favorites</a>
-                    <a href="{% url 'recipes_list' %}?chapter=own" class="btn btn-light btn-outline-secondary m-2">My Recipes</a>
-                    <a href="{% url 'recipes_list' %}?chapter=new" class="btn btn-light btn-outline-secondary m-2">New</a>
+                    <a href="{% url 'recipes_list' %}" class="btn btn-secondary btn-outline-dark text-light m-2">All
+                        Recipes</a>
+                    <a href="{% url 'recipes_list' %}?chapter=recent" class="btn btn-light btn-outline-secondary  m-2">Recently
+                        Viewed</a>
+                    <a href="{% url 'recipes_list' %}?chapter=best" class="btn btn-light btn-outline-secondary m-2">5-star
+                        Rating</a>
+                    <a href="{% url 'recipes_list' %}?chapter=favorites"
+                       class="btn btn-light btn-outline-secondary m-2">Favorites</a>
+                    <a href="{% url 'recipes_list' %}?chapter=own" class="btn btn-light btn-outline-secondary m-2">My
+                        Recipes</a>
+                    <a href="{% url 'recipes_list' %}?chapter=new"
+                       class="btn btn-light btn-outline-secondary m-2">New</a>
                 </p>
+
 
                 <form action="{% url 'recipes_list' %}?page={{ page_obj.number }}" class="m-3">
                     {% csrf_token %}
+                    <div class="form-group mb-2 px-5 pb-2 border border-secondary bg-light rounded">
 
 
-                    <input name="search" value="{{ search }}" class="form-control m-3">
-                    <input type="hidden" name="chapter" value="{{ request.GET.chapter }}">
+                        <input name="search" value="{{ search }}" class="form-control m-3">
+                        <div class="">Search in:</div>
+
+                        <input type="hidden" name="chapter" value="{{ request.GET.chapter }}">
+
+                        <div class="form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="search_title"
+                                   {% if request.GET.search_title %}checked{% endif %}>
+                            <label class="form-check-label">Title</label>
+                        </div>
+
+                        <div class="form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="search_ingredients"
+                                   {% if request.GET.search_ingredients %}checked{% endif %}>
+                            <label class="form-check-label">Ingredients</label>
+                        </div>
+
+                        <div class="form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="search_description"
+                                   {% if request.GET.search_description %}checked{% endif %}>
+                            <label class="form-check-label">Description</label>
+                        </div>
+
+                        <div class="form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="search_instructions"
+                                   {% if request.GET.search_instructions %}checked{% endif %}>
+                            <label class="form-check-label">Directions</label>
+                        </div>
 
 
-                    <button class="btn btn-dark">Search by title</button>
+                        <button class="btn btn-sm btn-dark m-1">Search</button>
 
 
-                    <a href="{% url 'recipe_create' %}" class="btn btn-light btn-outline-secondary"> Add new recipe </a>
+                        <a href="{% url 'recipe_create' %}" class="btn btn-sm btn-light btn-outline-secondary m1"> Add new
+                            recipe </a>
 
-
+                    </div>
                 </form>
             </div>
         </div>

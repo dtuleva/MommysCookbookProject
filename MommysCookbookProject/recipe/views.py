@@ -15,7 +15,6 @@ from MommysCookbookProject.home.forms import NoteForm
 from MommysCookbookProject.home.models import Favorite
 from MommysCookbookProject.recipe.forms import RecipeCreateUpdateForm
 from MommysCookbookProject.recipe.models import Recipe, Rating
-from MommysCookbookProject.user_auth.views import CurrentUserMixin
 
 
 class RecipesListView(views.ListView):
@@ -27,9 +26,13 @@ class RecipesListView(views.ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        search = self.request.GET.get('search', '')
-        chapter = self.request.GET.get('chapter', None)
+        search_query = self.request.GET.get('search', '')
+        search_title = self.request.GET.get('search_title')
+        search_ingredients = self.request.GET.get('search_ingredients')
+        search_description = self.request.GET.get('search_description')
+        search_instructions = self.request.GET.get('search_instructions')
 
+        chapter = self.request.GET.get('chapter', None)
         not_logged_error_message = None
 
         if chapter == 'recent':
@@ -42,7 +45,7 @@ class RecipesListView(views.ListView):
         if not self.request.user.is_authenticated and chapter in ('favorites', 'own'):
             not_logged_error_message = "Only logged-in users can access Favorites and My Recipes. " \
                                        "Here are our newest recipes instead:"
-            print(not_logged_error_message)
+
         else:
             if chapter == 'favorites':
                 favorite_recipes = Favorite.objects.filter(owner=self.request.user).values_list('to_recipe', flat=True)
@@ -55,7 +58,19 @@ class RecipesListView(views.ListView):
             two_days_ago = timezone.now() - timedelta(days=2)
             queryset = queryset.filter(created_at__gte=two_days_ago)
 
-        queryset = queryset.filter(title__icontains=search)
+        if not any([search_title, search_ingredients, search_description, search_instructions]):
+            search_title = True
+
+        if search_query:
+            if search_title:
+                queryset = queryset.filter(title__icontains=search_query)
+            if search_ingredients:
+                queryset = queryset.filter(ingredients__icontains=search_query)
+            if search_description:
+                queryset = queryset.filter(description__icontains=search_query)
+            if search_instructions:
+                queryset = queryset.filter(instructions__icontains=search_query)
+
         self.request.not_logged_error_message = not_logged_error_message
 
         return queryset
