@@ -20,10 +20,12 @@
 {#                            <p class="card-text">{{ recipe.instructions|linebreaks }}</p>#}
 {#                        </div>#}
 
-                        <form method="post">
+                        <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{ image_size }}
-                            <button type="submit">Process Image</button>
+                            {{ form.as_p }}
+
+
+                            <button class="btn btn-danger" type="submit" name="save_permanently">Save Changes</button>
                         </form>
 
                     </div>

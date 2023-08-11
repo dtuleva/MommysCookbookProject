@@ -83,14 +83,13 @@ class Recipe(models.Model):
     )
 
     image_raw = models.ImageField(
-        upload_to="recipe_images",
+        upload_to="recipe_images_raw",
         validators=(
             FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png']),
             validate_image_max_size_5_mb,
         ),
         blank=True,
         null=True,
-        default="recipe_images/recipe_img_default.jpg",
     )
 
     def get_average_rating(self):

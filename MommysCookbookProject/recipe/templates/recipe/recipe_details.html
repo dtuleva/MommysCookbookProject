@@ -9,8 +9,13 @@
         <div class="card">
             <div class="row no-gutters">
                 {% if recipe.image.url != '/media/recipe_images/recipe_img_default.jpg' %}
-                    <div class="col-md-8">
+                    <div class="col-md-8 position-relative">
                         <img src="{{ recipe.image.url }}" class="card-img" alt="Recipe image">
+                        {% if recipe.owner == request.user %}
+                        <a href="{% url 'image_process' recipe.slug %}" class="btn btn-primary position-absolute m-5" style="bottom: 0; right: 0;">
+                            Edit recipe image
+                        </a>
+                        {% endif %}
                     </div>
                     <div class="col-md-4 px-3 py-5">
                 {% else %}
